@@ -1,0 +1,12 @@
+[package]
+name = "todo-yew"
+version = "0.1.0"
+authors = ["Joseph R. Quinn <423821+quinnjr@users.noreply.github.com>"]
+edition = "2018"
+
+[dependencies]
+log = "0.4.11"
+serde = { version = "1.0.117", features = [ "derive" ] }
+strum = "0.19.5"
+strum_macros = "0.19.4"
+yew = { git = "https://github.com/yewstack/yew", branch = "master" }

@@ -1,0 +1,99 @@
+<style>
+    {
+        "
+            .navbar > .navbar-brand > #brand{
+                font-family: 'Inconsolata', monospace;
+            }
+            .is-hidden {
+                visibility: hidden;
+            }
+        "
+    }
+</style>
+<nav class="navbar is-light"
+    role="navigation"
+    aria-label="main navigation"
+>
+    <div class="navbar-brand">
+        <a class="navbar-item" id="brand" href="#">
+            { "Yew • Todo" }
+        </a>
+
+        <a role="button"
+            class="navbar-burger burger"
+            aria-label="menu"
+            aria-expanded="false"
+            data-target="navbar-main"
+        >
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+            <span aria-hidden="true"></span>
+        </a>
+    </div>
+
+    <div id="navbar-main" class="navbar-menu">
+        <div class="navbar-start">
+        // A navbar would go here
+        </div>
+    </div>
+</nav>
+<main role="main">
+    <div class="columns">
+        <div class="column is-three-fifths is-offset-one-fifth">
+            <section class="section" id="todo-app">
+                <div class="container">
+                    <div class="card">
+                        <header class="card-header">
+                            <p class="card-header-title">{ "Todos" }</p>
+                        </header>
+                        <div class="card-content">
+                            { self.view_input() }
+                        </div>
+                        <footer class="card-footer">
+                            { for Filter::iter().map(|filter| self.view_filter(filter)) }
+                            <a class="card-footer-item"
+                                id="toggle-all"
+                                // checked=self.state.is_all_completed()
+                                onclick=self.link.callback(|_| Message::ToggleAll)
+                            >
+                                { "Toggle All"}
+                            </a>
+                        </footer>
+                    </div>
+                </div>
+            </section>
+            <section class="section" id="todo-list">
+                <div class=is_hidden>
+                    <div class="level">
+                        <div class="level-right">
+                            <div class="level-item">
+                                <strong>{ self.state.total() }</strong>
+                                { " item(s) left" }
+                            </div>
+                            <div class="level-item">
+                                <button class=("button", "is-danger")
+                                    onclick=self.link.callback(|_| Message::ClearCompleted)
+                                >
+                                    { format!("Clear completed ({})", self.state.total_completed()) }
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <p>{ "Double-click to edit a todo" }</p>
+                </div>
+                {
+                    for self.state.entries.iter()
+                        .filter(|entry| self.state.filter.fits(entry))
+                        .enumerate()
+                        .map(|entry| self.view_entry(entry))
+                }
+            </section>
+        </div>
+    </div>
+</main>
+<footer class="footer">
+    <div class="content has-text-centered">
+        <p>{ "Written by Joseph R. Quinn" }</p>
+        <p>{ "Adapted from " }<a href="http://todomvc.com" target="_blank">{ "TodoMVC" }</a></p>
+    </div>
+</footer>
